@@ -1,0 +1,48 @@
+<html>
+<head>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://unpkg.com/vuex@3.0.1/dist/vuex.js"></script>
+</head>
+<body>
+  <div id="app">
+    <p> {{ antal }}
+    <button @click="increment">+</button>
+    <button @click="decrement">-</button>
+  </div>
+</body>
+</html>
+<script>
+  const store = new Vuex.Store({
+    state: {
+      antal: 0
+    },
+    mutations: {
+      inc (state) {
+        state.antal++
+      },
+      /* Vi kan skriva en mutation på två olika sätt.
+      Dels som vanlig funktion (ovan),
+      dels som arrow function (nedan).
+      */
+      dec: state => state.antal--
+    }
+  })
+
+  const app = new Vue({
+    el: "#app",
+    computed: {
+      antal() {
+        return store.state.antal
+      }
+    },
+    methods: {
+      increment () {
+        store.commit('inc')
+      },
+      decrement () {
+        store.commit('dec')
+      }
+    }
+  })
+
+</script>
