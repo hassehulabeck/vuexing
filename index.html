@@ -5,9 +5,7 @@
 </head>
 <body>
   <div id="app">
-    <p> {{ antal }}
-    <button @click="increment">+</button>
-    <button @click="decrement">-</button>
+    <mini-counter></mini-counter>
   </div>
 </body>
 </html>
@@ -27,12 +25,17 @@
       dec: state => state.antal--
     }
   })
-
-  const app = new Vue({
-    el: "#app",
+  var miniCounter = Vue.component('mini-counter', {
+    template:
+      `<div>
+        <p> {{ antal }} </p>
+        <button @click="increment">+</button>
+        <button @click="decrement">-</button>
+      </div>`
+    ,
     computed: {
-      antal() {
-        return store.state.antal
+      antal () {
+        return this.$store.state.antal
       }
     },
     methods: {
@@ -43,6 +46,16 @@
         store.commit('dec')
       }
     }
+
   })
+
+  const app = new Vue({
+    el: "#app",
+    store,
+    components: {
+      miniCounter
+    }
+  })
+
 
 </script>
