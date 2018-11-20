@@ -1,0 +1,49 @@
+<html>
+<head>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://unpkg.com/vuex@3.0.1/dist/vuex.js"></script>
+</head>
+<body>
+  <div id="app">
+    <p> {{ counter }} </p>
+    <button @click="increase(1)">+1</button>
+    <button @click="decrease(1)">-1</button>
+    <button @click="increase(10)">+10</button>
+    <button @click="decrease(10)">-10</button>
+  </div>
+</body>
+</html>
+
+<script>
+const store = new Vuex.Store({
+  state: {
+    counter: 0
+  },
+  mutations: {
+    inc(state, antal) {
+      state.counter += antal
+    },
+    dec: (state, antal) => state.counter -= antal
+
+  }
+})
+
+const app = new Vue({
+  el: '#app',
+  store,
+  computed: {
+    counter() {
+      return this.$store.state.counter
+    }
+  },
+  methods: {
+    increase(antal) {
+      this.$store.commit('inc', antal)
+    },
+    decrease(antal) {
+      this.$store.commit('dec', antal)
+    }
+  }
+})
+
+</script>

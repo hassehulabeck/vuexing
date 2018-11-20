@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+ <meta charset="utf-8">
+ <title>ovn2</title>
+ <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+ <script src="https://unpkg.com/vuex@3.0.1/dist/vuex.js"></script>
+</head>
+
+<body>
+ <div id="app">
+   <ul v-show="!showHigh">
+     <li v-for="number in numbers">{{number}}
+   </ul>
+   <ul v-show="showHigh">
+     <li v-for="num in filteredNumbers">{{num}}
+  </ul>
+   <button type="button" @click="showHigher">Bara tal över 5</button>
+ </div>
+</body>
+
+</html>
+<script type="text/javascript">
+ const store = new Vuex.Store({
+   state: {
+     numbers: [2, 6, 8, 3, 5, 12, 7]
+   },
+   getters: {
+     higherthan5: state => {
+       return state.numbers.filter(function(nummer) {
+         return nummer > 5
+       })
+     }
+   }
+ });
+
+ const app = new Vue({
+   el: '#app',
+   data: {
+     showHigh: false
+   },
+   computed: {
+     filteredNumbers() {
+       return store.getters.higherthan5
+     },
+     numbers() {
+       return store.state.numbers
+     }
+   },
+   methods: {
+     showHigher() {
+       this.showHigh = !this.showHigh;
+     }
+   }
+ });
+</script>

@@ -1,0 +1,86 @@
+<html>
+<head>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://unpkg.com/vuex@3.0.1/dist/vuex.js"></script>
+  <style>
+    #app {
+      width: 400px;
+      height: 400px;
+      margin: 0 auto;
+    }
+    #app p {
+      width: 2em;
+      margin: 0 auto;
+    }
+    .circle {
+      margin: 12% auto;
+      width: 75%;
+      height: 75%;
+      border-radius: 50%;
+      border: thin solid black;
+    }
+    .circle:nth-child(odd) {
+      background-color: orange;
+    }
+    .circle:nth-child(even) {
+      background-color: white;
+    }
+    .circle:hover {
+      cursor: crosshair;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <target></target>
+    <p> {{ totalPoints }} </p>
+  </div>
+</body>
+</html>
+<script>
+
+  var target = Vue.component('target-circle', {
+    template: `
+    <div class='circle' @click.stop="score(1)">
+      <div class='circle' @click.stop="score(2)">
+        <div class='circle' @click.stop="score(3)">
+          <div class='circle' @click.stop="score(5)">
+            <div class='circle' @click.stop="score(10)">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    `,
+    methods: {
+      score(point) {
+        store.commit('regScore', point)
+      }
+    }
+  })
+
+  const store = new Vuex.Store({
+    state: {
+      totalPoints: 0
+    },
+    mutations: {
+      regScore(state, point) {
+        state.totalPoints += point
+      }
+    }
+
+  })
+
+  const app = new Vue({
+    el: '#app',
+    components: {
+      target
+    },
+    computed: {
+      totalPoints() {
+        return store.state.totalPoints
+      }
+    }
+  })
+
+</script>
